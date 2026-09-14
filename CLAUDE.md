@@ -26,7 +26,7 @@ A change is done only when all of these are true and you can point to the eviden
 - Port from Vane (MIT) with a header comment and an entry in `THIRD_PARTY_NOTICES.md`.
 
 ## Project facts
-- Build: `./scripts/setup.sh` then `xcodegen` then `xcodebuild -scheme <App>`.
+- Build: `./scripts/setup.sh` then `xcodegen` then `xcodebuild -scheme Slate`.
 - Signing: ad-hoc. No Apple Developer account. Never add a team ID.
 - Sparkle feed and key are mine, not Ora's. Never point at Ora's appcast.
 - Upstream Ora is a git remote named `upstream`. Do not merge from it without asking.

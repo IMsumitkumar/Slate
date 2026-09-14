@@ -97,8 +97,8 @@ These were decided after research. Do not reopen them.
 |---|---|---|
 | Idle memory, 1 blank tab | ≤ 80 MB app + WebContent | `footprint <pid>` or Activity Monitor, sum of app and its XPC children |
 | Idle memory, 12 sleeping tabs | ≤ 150 MB | Same, after all 12 have slept |
-| Cold launch to usable window | ≤ 500 ms | `time open -a <App>` plus log timestamp at first window |
-| App binary size | ≤ 15 MB (Sparkle is most of it) | `du -sh <App>.app` |
+| Cold launch to usable window | ≤ 500 ms | `time open -a Slate` plus log timestamp at first window |
+| App binary size | ≤ 15 MB (Sparkle is most of it) | `du -sh Slate.app` |
 | Energy impact, idle, 5 tabs | "Low" in Activity Monitor for 10 minutes | Activity Monitor Energy tab |
 | Ad blocking | 0 requests to known ad domains on 3 test sites | Web Inspector network tab |
 | Profile isolation | Login in profile A is absent in profile B | Manual test with two accounts |
@@ -123,7 +123,7 @@ Record every measurement in `docs/MEASUREMENTS.md` with date and commit hash. A 
 Only three phases, because only two real decision gates exist. Within a phase, work end to end.
 
 ### Phase 0 — Fork and own it
-Outcome: my renamed fork builds and runs from a clean clone, signed with my team, with `upstream` as a git remote and Ora's appcast fully replaced by mine.
+Outcome: my renamed fork builds and runs from a clean clone, ad-hoc signed, with `upstream` as a git remote and Ora's appcast fully replaced by mine.
 
 ### Phase 1 — Audit
 Outcome: a file `docs/AUDIT.md` that maps every Ora module to Keep / Cut / Missing against Section 4, with an estimated memory cost or saving per item, and baseline numbers for every metric in Section 5.
@@ -141,8 +141,8 @@ Outcome: fixes from my week of use, ad-hoc signed `.dmg` published on GitHub Rel
 ## 8. Verification
 
 Before calling any phase done:
-- `xcodebuild build -scheme <App> -configuration Release` passes with zero warnings introduced by this work.
-- `xcodebuild test -scheme <App>` passes. Add tests for profile isolation and tab sleep/restore.
+- `xcodebuild build -scheme Slate -configuration Release` passes with zero warnings introduced by this work.
+- `xcodebuild test -scheme Slate` passes. Add tests for profile isolation and tab sleep/restore.
 - Every Section 5 metric is measured and written to `docs/MEASUREMENTS.md` with the commit hash.
 - The app launches from a clean clone with only `./scripts/setup.sh` and `xcodegen`.
 - Audit each claim against a tool result from this session. Only report work you can point to evidence for. If something is not verified, say so. If tests fail, say so with the output.
@@ -159,11 +159,12 @@ Lead with the outcome. First sentence answers "what happened." Then the measurem
 
 ## 11. Project inputs
 
-- App name: **Kite** (placeholder; I may rename before Phase 0)
-- Bundle ID: `io.github.<my-handle>.kite` — replace `<my-handle>` with my GitHub username
+- App name: **Slate**
+- Fork repo: https://github.com/IMsumitkumar/Slate (upstream remote: https://github.com/the-ora/browser)
+- Bundle ID: `io.github.imsumitkumar.slate`
 - Signing: **ad-hoc**. No Apple Developer account. Set `CODE_SIGN_IDENTITY: "-"`, `CODE_SIGN_STYLE: Automatic`, remove `DEVELOPMENT_TEAM` and `PROVISIONING_PROFILE_SPECIFIER`. No notarization.
 - Sparkle EdDSA key: generate locally with Sparkle's `generate_keys` tool during Phase 0; paste the public key into `project.yml` and store the private key in my login keychain
-- Appcast URL: `https://<my-handle>.github.io/kite/appcast.xml` (enable GitHub Pages on the fork in Phase 0)
+- Appcast URL: `https://imsumitkumar.github.io/Slate/appcast.xml` (enable GitHub Pages on the fork in Phase 0)
 - macOS version: latest (≥ 26). All WebKit APIs in Section 3 are available; still guard with `#available` so the minimum stays 15.0.
 - Extensions to test first: **Bitwarden** and **Dark Reader** (standard web extensions). Do not test AdGuard's Safari extension; ad blocking is already built in via SafariConverterLib.
 - Default search engine: **Google**
