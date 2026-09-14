@@ -1,6 +1,8 @@
-# Ora Browser Roadmap
+# Roadmap
 
-Ora Browser is in active development. This roadmap is intended to show current product direction, not to serve as an exhaustive issue tracker.
+Slate's roadmap lives in [`BROWSER_SPEC.md`](BROWSER_SPEC.md) — Section 4 is the feature list, Section 5 the measurable targets, and Section 7 the phases.
+
+What follows is the roadmap inherited from Ora Browser, kept for reference only. Where the two disagree, the spec wins.
 
 ## Available Today
 
@@ -27,6 +29,6 @@ Ora Browser is in active development. This roadmap is intended to show current p
 
 ## Feedback
 
-If you want to discuss roadmap priorities or propose a feature, open an issue or join the [Discord community](https://discord.gg/9aZWH52Zjm). For contribution workflow details, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+For contribution workflow details, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 _Last updated: March 2026_

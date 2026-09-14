@@ -1,13 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 🛡️ Report a Security Vulnerability
-    url: https://github.com/the-ora/browser/blob/main/SECURITY.md
-    about: Do NOT open a public issue for security vulnerabilities. Email security@orabrowser.com instead.
-
-  - name: 📖 Contribution Guide
-    url: https://github.com/the-ora/browser/blob/main/CONTRIBUTING.md
-    about: Read this before opening a new issue or PR.
-
-  - name: 💬 Discussions
-    url: https://discord.gg/9aZWH52Zjm
-    about: Start a discussion, ask a question, or share ideas that don’t fit as an issue.
+  - name: Security Vulnerability
+    url: https://github.com/IMsumitkumar/Slate/blob/main/SECURITY.md
+    about: Do NOT open a public issue for security vulnerabilities. See SECURITY.md for how to report privately.
+  - name: Contributing Guide
+    url: https://github.com/IMsumitkumar/Slate/blob/main/CONTRIBUTING.md
+    about: Read this before opening a pull request.

@@ -1,7 +1,7 @@
 import os.log
 import SwiftUI
 
-private let logger = Logger(subsystem: "com.orabrowser.ora", category: "SearchEngineService")
+private let logger = Logger(subsystem: "io.github.imsumitkumar.slate", category: "SearchEngineService")
 
 enum SearchEngineID: String, CaseIterable {
     case youtube = "YouTube"

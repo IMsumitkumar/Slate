@@ -2,31 +2,35 @@
 set -euo pipefail
 
 # publish.sh — Generate changelogs, build the Sparkle appcast, create a GitHub
-# release, and deploy the feed.
+# release, and deploy the feed to GitHub Pages.
 #
 # Usage: ./scripts/publish.sh
 #
-# Expects build/Ora-Browser-<version>.dmg to exist (run build.sh first).
-# Reads version from project.yml. Expects .env with: ORA_PRIVATE_KEY
+# Expects build/Slate-<version>.dmg to exist (run build.sh first).
+# Reads version from project.yml.
+#
+# The Sparkle private key lives in the login keychain under the account name
+# below — it is never read from .env and never written to disk.
+#
 # Optional changelog env vars:
-#   ORA_CHANGELOG_MODEL   Override the Codex model used for changelog rewriting
-#   ORA_CHANGELOG_REVIEW  Set to 1 to open generated notes in $EDITOR
-#   ORA_CHANGELOG_NO_LLM  Set to 1 to force deterministic fallback notes
+#   SLATE_CHANGELOG_MODEL   Override the model used for changelog rewriting
+#   SLATE_CHANGELOG_REVIEW  Set to 1 to open generated notes in $EDITOR
+#   SLATE_CHANGELOG_NO_LLM  Set to 1 to force deterministic fallback notes
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/_common.sh"
 
-REPO="the-ora/browser"
-
-load_env ORA_PRIVATE_KEY
+REPO="IMsumitkumar/Slate"
+PAGES_URL="https://imsumitkumar.github.io/Slate/appcast.xml"
+SPARKLE_KEY_ACCOUNT="slate"
 
 VERSION=$(grep "MARKETING_VERSION:" project.yml | sed 's/.*MARKETING_VERSION: //' | tr -d ' ')
-DMG_NAME="Ora-Browser-${VERSION}.dmg"
+DMG_NAME="Slate-${VERSION}.dmg"
 DMG_FILE="build/${DMG_NAME}"
 SPARKLE_ARCHIVES_DIR="build/sparkle"
 CHANGELOG_DIR="build/release-notes"
-CHANGELOG_FILE="${CHANGELOG_DIR}/Ora-Browser-${VERSION}.md"
-RELEASE_NOTES_FILE="${SPARKLE_ARCHIVES_DIR}/Ora-Browser-${VERSION}.html"
+CHANGELOG_FILE="${CHANGELOG_DIR}/Slate-${VERSION}.md"
+RELEASE_NOTES_FILE="${SPARKLE_ARCHIVES_DIR}/Slate-${VERSION}.html"
 APPCAST_FILE="${SPARKLE_ARCHIVES_DIR}/appcast.xml"
 
 [[ -f "$DMG_FILE" ]] || die "DMG not found at $DMG_FILE. Run ./scripts/build.sh first."
@@ -52,8 +56,8 @@ CHANGELOG_ARGS=(
     --output-html "$RELEASE_NOTES_FILE"
 )
 
-[[ "${ORA_CHANGELOG_REVIEW:-0}" == "1" ]] && CHANGELOG_ARGS+=(--review)
-[[ "${ORA_CHANGELOG_NO_LLM:-0}" == "1" ]] && CHANGELOG_ARGS+=(--no-llm)
+[[ "${SLATE_CHANGELOG_REVIEW:-0}" == "1" ]] && CHANGELOG_ARGS+=(--review)
+[[ "${SLATE_CHANGELOG_NO_LLM:-0}" == "1" ]] && CHANGELOG_ARGS+=(--no-llm)
 
 python3 "${CHANGELOG_ARGS[@]}"
 
@@ -66,8 +70,8 @@ setup_sparkle_tools || prime_sparkle_tools_from_xcode || die "generate_appcast n
 cp "$DMG_FILE" "$SPARKLE_ARCHIVES_DIR/"
 [[ -f appcast.xml ]] && cp appcast.xml "$APPCAST_FILE"
 
-printf '%s' "$ORA_PRIVATE_KEY" | generate_appcast \
-    --ed-key-file - \
+generate_appcast \
+    --account "$SPARKLE_KEY_ACCOUNT" \
     --download-url-prefix "https://github.com/$REPO/releases/download/v$VERSION/" \
     --full-release-notes-url "https://github.com/$REPO/releases/tag/v$VERSION" \
     --link "https://github.com/$REPO" \
@@ -108,7 +112,7 @@ echo "Release: https://github.com/$REPO/releases/tag/v$VERSION"
 
 step "Deploying appcast"
 
-cp appcast.xml /tmp/ora_appcast_deploy.xml
+cp appcast.xml /tmp/slate_appcast_deploy.xml
 CURRENT_BRANCH=$(git branch --show-current)
 
 STASH_CREATED=false
@@ -126,13 +130,13 @@ if git ls-remote --heads origin gh-pages | grep -q gh-pages; then
 else
     git checkout --orphan gh-pages
     git rm -rf .
-    echo "# Ora Browser Updates" > README.md
+    echo "# Slate Updates" > README.md
     git add README.md
     git commit -m "chore(appcast): initialize gh-pages"
 fi
 
-cp /tmp/ora_appcast_deploy.xml appcast.xml
-rm -f /tmp/ora_appcast_deploy.xml
+cp /tmp/slate_appcast_deploy.xml appcast.xml
+rm -f /tmp/slate_appcast_deploy.xml
 git add -f appcast.xml
 git diff --staged --quiet || git commit -m "chore(appcast): deploy v$VERSION"
 git push origin gh-pages
@@ -142,4 +146,4 @@ if [[ "$STASH_CREATED" == true ]]; then
     git stash pop 2>/dev/null || true
 fi
 
-green "Published! Appcast: https://the-ora.github.io/browser/appcast.xml"
+green "Published! Appcast: $PAGES_URL"

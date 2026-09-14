@@ -1,5 +1,5 @@
 import AppKit
-@testable import Ora
+@testable import Slate
 import Testing
 
 @MainActor

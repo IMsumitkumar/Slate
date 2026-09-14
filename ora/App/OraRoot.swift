@@ -156,9 +156,9 @@ struct OraRoot: View {
                         return
                     }
                     dialogManager.confirm(
-                        title: "Quit Ora?",
+                        title: "Quit Slate?",
                         message: "Are you sure you want to quit?",
-                        iconImage: Image("OraColorLogo"),
+                        iconImage: Image("SlateColorLogo"),
                         confirmLabel: "Quit",
                         variant: .destructive,
                         onConfirm: { NSApp.reply(toApplicationShouldTerminate: true) },

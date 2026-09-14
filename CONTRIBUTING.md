@@ -1,6 +1,6 @@
-# Contributing to Ora
+# Contributing to Slate
 
-This guide covers the workflow and expectations for contributing to Ora Browser.
+This guide covers the workflow and expectations for contributing to Slate.
 
 ## Before You Start
 
@@ -19,10 +19,10 @@ This guide covers the workflow and expectations for contributing to Ora Browser.
 ### Getting Started
 
 ```bash
-git clone https://github.com/the-ora/browser.git
+git clone https://github.com/IMsumitkumar/Slate.git
 cd browser
 ./scripts/setup.sh
-open Ora.xcodeproj
+open Slate.xcodeproj
 ```
 
 The setup script installs required tooling, installs git hooks, and generates the Xcode project.
@@ -55,7 +55,7 @@ You can run the main checks manually:
 swiftformat . --quiet
 swiftlint lint --fix
 ./scripts/xcbuild-debug.sh
-xcodebuild test -scheme ora -destination "platform=macOS"
+xcodebuild test -scheme Slate -destination "platform=macOS"
 ```
 
 You can also run tests in Xcode with `Product > Test`.
@@ -83,4 +83,4 @@ If you use AI assistance for code generation, documentation, issue comments, or 
 
 ## Questions
 
-If you are unsure whether a change is a good fit, open an issue before investing significant time. For general discussion, you can also join the [Discord community](https://discord.gg/9aZWH52Zjm).
+If you are unsure whether a change is a good fit, open an issue before investing significant time.

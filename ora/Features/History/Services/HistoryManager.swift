@@ -2,7 +2,7 @@ import Foundation
 import os.log
 import SwiftData
 
-private let logger = Logger(subsystem: "com.orabrowser.ora", category: "HistoryManager")
+private let logger = Logger(subsystem: "io.github.imsumitkumar.slate", category: "HistoryManager")
 
 @MainActor
 class HistoryManager: ObservableObject {

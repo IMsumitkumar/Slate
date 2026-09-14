@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate Ora release notes from merged pull requests between two tags.
+Generate Slate release notes from merged pull requests between two tags.
 
 Usage:
   ./scripts/generate-changelog.py <previous-tag> <new-tag> <owner/repo>
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--model",
-        default=os.environ.get("ORA_CHANGELOG_MODEL", os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)),
+        default=os.environ.get("SLATE_CHANGELOG_MODEL", os.environ.get("OPENAI_MODEL", DEFAULT_MODEL)),
         help="Codex model to use for the rewrite step",
     )
     parser.add_argument(
@@ -158,7 +158,7 @@ def collect_pull_requests(previous_tag: str, new_tag: str, repository: str) -> l
 
 def release_title_from_tag(tag: str) -> str:
     version = tag[1:] if tag.startswith("v") else tag
-    return f"Ora {version}"
+    return f"Slate {version}"
 
 
 def compare_url(repository: str, previous_tag: str, new_tag: str) -> str:
@@ -184,7 +184,7 @@ def codex_output_schema() -> dict[str, Any]:
 def call_codex(prompt: str, model: str) -> dict[str, str]:
     ensure_tool("codex")
 
-    with tempfile.TemporaryDirectory(prefix="ora-changelog-") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix="slate-changelog-") as temp_dir:
         temp_path = Path(temp_dir)
         schema_path = temp_path / "schema.json"
         output_path = temp_path / "response.json"

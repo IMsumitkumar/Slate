@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# release.sh — Single entry point to build and publish an Ora Browser release.
+# release.sh — Single entry point to build and publish a Slate release.
 #
 # Usage:
 #   ./scripts/release.sh              # auto-increment patch (0.2.12 → 0.2.13)
@@ -13,7 +13,7 @@ set -euo pipefail
 # Runs: preflight checks → version bump → build.sh → publish.sh
 #
 # You can also run build.sh and publish.sh independently:
-#   ./scripts/build.sh                # just build, sign, notarize
+#   ./scripts/build.sh                # just build, sign, package
 #   ./scripts/publish.sh              # just publish (after build.sh)
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -39,9 +39,10 @@ done
 step "Preflight checks"
 
 [[ -f "project.yml" ]] || die "project.yml not found. Run from the project root."
-[[ -d "ora" ]]         || die "ora/ directory not found. Run from the project root."
+[[ -d "ora" ]]         || die "ora/ source directory not found. Run from the project root."
 
-load_env APPLE_ID TEAM_ID SIGNING_IDENTITY DEVELOPER_ID_PROFILE APP_SPECIFIC_PASSWORD_KEYCHAIN ORA_PRIVATE_KEY
+# Slate is ad-hoc signed: no Apple Developer account, no notarization, no .env secrets.
+# The Sparkle private key lives in the login keychain (account: slate).
 
 MISSING_TOOLS=()
 command -v xcodegen   >/dev/null || MISSING_TOOLS+=(xcodegen)
@@ -66,7 +67,7 @@ if [[ ${#MISSING_CASKS[@]} -gt 0 ]]; then
     setup_sparkle_tools || prime_sparkle_tools_from_xcode || die "generate_appcast not found after installing Sparkle or resolving package dependencies."
 fi
 
-[[ -f "ora_public_key.pem" ]] || die "ora_public_key.pem not found."
+[[ -f "slate_public_key.pem" ]] || die "slate_public_key.pem not found."
 git diff --quiet --exit-code || die "Uncommitted changes. Commit or stash first."
 
 green "All checks passed."
@@ -90,7 +91,7 @@ fi
 
 BUILD_VERSION=$(( ${CURRENT_BUILD:-0} + 1 ))
 
-bold "Ora Browser v${VERSION} (build ${BUILD_VERSION})"
+bold "Slate v${VERSION} (build ${BUILD_VERSION})"
 echo "  Current: v${CURRENT_VERSION} (build ${CURRENT_BUILD})"
 
 # ---------------------------------------------------------------------------
@@ -136,13 +137,13 @@ sed -i '' "s/CURRENT_PROJECT_VERSION: .*/CURRENT_PROJECT_VERSION: $BUILD_VERSION
 # Done
 # ---------------------------------------------------------------------------
 
-DMG_NAME="Ora-Browser-${VERSION}.dmg"
+DMG_NAME="Slate-${VERSION}.dmg"
 echo ""
 green "========================================"
 green "  Release v${VERSION} published!"
 green "========================================"
 echo ""
 echo "  DMG:     build/${DMG_NAME} ($(du -h "build/${DMG_NAME}" | cut -f1))"
-echo "  Release: https://github.com/the-ora/browser/releases/tag/v$VERSION"
-echo "  Appcast: https://the-ora.github.io/browser/appcast.xml"
+echo "  Release: https://github.com/IMsumitkumar/Slate/releases/tag/v$VERSION"
+echo "  Appcast: https://imsumitkumar.github.io/Slate/appcast.xml"
 echo ""

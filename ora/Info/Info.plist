@@ -61,7 +61,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>Ora Browser</string>
+			<string>Slate</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>http</string>
@@ -86,8 +86,8 @@
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://the-ora.github.io/browser/appcast.xml</string>
+	<string>https://imsumitkumar.github.io/Slate/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>Ozj+rezzbJAD76RfajtfQ7rFojJbpFSCl/0DcFSBCTI=</string>
+	<string>qFHnOWr7eqkTiPXFkKay60DRhrH9fl+6iXovJCYBAOU=</string>
 </dict>
 </plist>

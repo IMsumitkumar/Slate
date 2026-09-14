@@ -373,9 +373,9 @@ struct FingerprintingProtectionProfile: Equatable {
 
 final class BrowserPrivacyService {
     private enum StaticRuleListIdentifier: String {
-        case trackers = "com.orabrowser.privacy.trackers.v1"
-        case thirdPartyCookies = "com.orabrowser.privacy.cookies.third-party.v1"
-        case allCookies = "com.orabrowser.privacy.cookies.all.v1"
+        case trackers = "io.github.imsumitkumar.slate.privacy.trackers.v1"
+        case thirdPartyCookies = "io.github.imsumitkumar.slate.privacy.cookies.third-party.v1"
+        case allCookies = "io.github.imsumitkumar.slate.privacy.cookies.all.v1"
     }
 
     static let shared = BrowserPrivacyService()

@@ -2,7 +2,7 @@ import os.log
 import Sparkle
 import SwiftUI
 
-private let logger = Logger(subsystem: "com.orabrowser.ora", category: "UpdateService")
+private let logger = Logger(subsystem: "io.github.imsumitkumar.slate", category: "UpdateService")
 
 class UpdateService: NSObject, ObservableObject {
     static let shared = UpdateService()
@@ -81,7 +81,7 @@ class UpdateService: NSObject, ObservableObject {
 
 extension UpdateService: SPUUpdaterDelegate {
     func feedURLString(for updater: SPUUpdater) -> String? {
-        return "https://the-ora.github.io/browser/appcast.xml"
+        return "https://imsumitkumar.github.io/Slate/appcast.xml"
     }
 
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
